@@ -1,2 +1,2 @@
-# booking-service
-Microservicio encargado de manejar las reservas
+# BookingService
+Repositorio de microservicio para manejar las reservas
