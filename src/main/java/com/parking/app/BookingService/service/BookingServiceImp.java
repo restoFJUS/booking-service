@@ -1,7 +1,6 @@
 package com.parking.app.BookingService.service;
 
 import com.parking.app.BookingService.entity.Booking;
-import com.parking.app.BookingService.model.Customer;
 import com.parking.app.BookingService.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,12 @@ public class BookingServiceImp implements BookingService{
     private BookingRepository bookingRepository;
 
     @Override
-    public List<Booking> listAllBooking() {
+    public Booking createBooking(Booking booking) {
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
@@ -24,10 +28,6 @@ public class BookingServiceImp implements BookingService{
         return bookingRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public Booking createBooking(Booking booking) {
-        return bookingRepository.save(booking);
-    }
 
     @Override
     public Booking updateBooking(Booking booking) {
@@ -47,8 +47,13 @@ public class BookingServiceImp implements BookingService{
     }
 
     @Override
-    public List<Booking> findByCustomerId(Long customerId) {
-        return bookingRepository.getBookingByCustomer(customerId);
+    public List<Booking> findByClientId(Long clientId) {
+        return bookingRepository.getBookingByClient(clientId);
+    }
+
+    @Override
+    public  List<Booking> findByRestaurantId(Long restaurantId){
+        return bookingRepository.getBookingByRestaurant(restaurantId);
     }
 
 

@@ -12,19 +12,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/booking")
+@RequestMapping(value = "/abm-reservas")
 public class BookingController {
 
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping
-    public ResponseEntity<List<Booking>> getListBooking(){
-        List<Booking> booking = new ArrayList<>();
-        return ResponseEntity.ok(bookingService.listAllBooking());
+    //--> ABM de Reservas
+    //--> POSTs
+    @PostMapping("/create-booking")
+    public ResponseEntity<Booking> createBooking( @RequestBody Booking booking){
+        Booking bookingCreated =  bookingService.createBooking(booking);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookingCreated);
     }
 
-    @GetMapping(value = "/{id}")
+    //--> GETs
+    @GetMapping("/get-all-bookings")
+    public ResponseEntity<List<Booking>> getListBooking(){
+        List<Booking> booking = new ArrayList<>();
+        return ResponseEntity.ok(bookingService.getAllBookings());
+    }
+
+    @GetMapping(value = "/get-booking/{id}")
     public ResponseEntity<Booking> getBooking(@PathVariable("id") Long id) {
         Booking booking =  bookingService.getBooking(id);
         if (null==booking){
@@ -33,16 +42,32 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
-    @PostMapping
-    public ResponseEntity<Booking> createBooking( @RequestBody Booking booking){
-        Booking bookingCreated =  bookingService.createBooking(booking);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookingCreated);
-    }
-
-    @GetMapping( "/search-by-customer/{idCustomer}")
-    public ResponseEntity<List<Booking>> findByCustomerId(@PathVariable Long idCustomer){
-        List<Booking> resultado = bookingService.findByCustomerId(idCustomer);
+    @GetMapping( "/search-by-client/{clientId}")
+    public ResponseEntity<List<Booking>> findByClientId(@PathVariable Long clientId){
+        List<Booking> resultado = bookingService.findByClientId(clientId);
         return ResponseEntity.ok(resultado);
-
     }
+
+    @GetMapping( "/search-by-restaurant/{restaurantId}")
+    public ResponseEntity<List<Booking>> findByRestaurantId(@PathVariable Long restaurantId){
+        List<Booking> resultado = bookingService.findByRestaurantId(restaurantId);
+        return ResponseEntity.ok(resultado);
+    }
+
+
+    //--> PUTs
+    @PutMapping("/update-booking")
+    public ResponseEntity<Booking> updateBooking(@RequestBody Booking booking){
+        Booking bookingUpdated =  bookingService.updateBooking(booking);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(bookingUpdated);
+    }
+
+    //--> DELETEs
+    @DeleteMapping("/delete-booking/{bookingId}")
+    public ResponseEntity<Booking> deleteBooking(@PathVariable Long bookingId){
+        bookingService.deleteBooking(bookingId);
+        return ResponseEntity.ok().body(bookingService.getBooking(bookingId));
+    }
+
+
 }
