@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    @Query(value = "SELECT * FROM tbl_booking b WHERE b.customer_id = :customerId" , nativeQuery = true)
-    public List<Booking> getBookingByCustomer(Long customerId);
+    @Query(value = "SELECT * FROM tbl_booking b WHERE b.booking_client_id = :clientId" , nativeQuery = true)
+    public List<Booking> getBookingByClient(Long clientId);
+
+    @Query(value = "SELECT * FROM tbl_booking b WHERE b.booking_restaurant_id = :restaurantId" , nativeQuery = true)
+    public List<Booking> getBookingByRestaurant(Long restaurantId);
 }
