@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/abm-reservas")
+@RequestMapping(value = "/booking")
 public class BookingController {
 
     @Autowired
